@@ -14,9 +14,8 @@ mongoose.connect("mongodb://charanchowdary270_db_user:charan2007@ac-rs25la0-shar
   .catch(err => console.log(err));
 
 // 📥 GET projects
-app.get("/projects", async (req, res) => {
-  const projects = await Project.find();
-  res.json(projects);
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
 });
 
 // 📤 ADD project
