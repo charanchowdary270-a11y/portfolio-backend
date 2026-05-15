@@ -4,47 +4,37 @@ const cors = require("cors");
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// 🔹 MongoDB Connection (PUT YOUR URL HERE)
-mongoose.connect(mongodb+srv://charanchowdary270_db_user:charan2007@cluster0.ibqtpjk.mongodb.net/?appName=Cluster0, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("MongoDB connected ✔"))
-.catch((err) => console.error("MongoDB error:", err));
+// ✅ MongoDB connection (PUT YOUR URL HERE)
+mongoose.connect("mongodb+srv://charanchowdary270_db_user:charan2007@cluster0.ibqtpjk.mongodb.net/?appName=Cluster0/portfolio")
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
 
-
-// 🔹 Project Model (Schema)
-const projectSchema = new mongoose.Schema({
+// ✅ Schema + Model (THIS WAS MISSING / BROKEN)
+const Project = mongoose.model("Project", {
   name: String,
   description: String,
 });
 
-const Project = mongoose.model("Project", projectSchema);
-
-
-// 🔹 Root Route
+// ✅ ROOT
 app.get("/", (req, res) => {
-  res.send("Backend is running 🚀");
+  res.send("Backend running 🚀");
 });
 
-
-// 🔹 Projects API
+// ✅ FIXED PROJECT ROUTE (NO ERROR NOW)
 app.get("/projects", async (req, res) => {
   try {
-    const projects = await Project.find();
-    res.json(projects);
+    const data = await Project.find();
+    res.json(data);
   } catch (err) {
-    console.error("Error fetching projects:", err);
-    res.status(500).send("Internal Server Error");
+    console.log(err);
+    res.status(500).send("Server Error");
   }
 });
 
-
-// 🔹 PORT (IMPORTANT for Render)
+// ✅ PORT (DON'T TOUCH)
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
